@@ -234,6 +234,44 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // 6. Lazy Video Loading (fixes mobile simultaneous video limit)
+    const lazyVideos = document.querySelectorAll('video.lazy-video');
+    
+    if ('IntersectionObserver' in window) {
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const video = entry.target;
+                if (entry.isIntersecting) {
+                    // Load the video source when it scrolls into view
+                    if (!video.getAttribute('src') && video.dataset.src) {
+                        video.src = video.dataset.src;
+                        video.load();
+                    }
+                } else {
+                    // Pause and unload when scrolled out of view to free media slots
+                    if (video.getAttribute('src')) {
+                        video.pause();
+                        video.removeAttribute('src');
+                        video.load();
+                    }
+                }
+            });
+        }, {
+            rootMargin: '200px 0px', // Start loading 200px before visible
+            threshold: 0
+        });
+
+        lazyVideos.forEach(video => videoObserver.observe(video));
+    } else {
+        // Fallback for browsers without IntersectionObserver
+        lazyVideos.forEach(video => {
+            if (video.dataset.src) {
+                video.src = video.dataset.src;
+                video.load();
+            }
+        });
+    }
+
     // Navbar active state logic based on scroll
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('.nav-link');
@@ -334,7 +372,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const videoSrc = card.getAttribute('data-reel-src');
             if (videoSrc && lightbox && lightboxVideo) {
                 // Pause any currently playing card videos
-                document.querySelectorAll('#portfolio video').forEach(v => v.pause());
+                document.querySelectorAll('#portfolio video.lazy-video').forEach(v => {
+                    v.pause();
+                });
                 // Set lightbox video source and open
                 lightboxVideo.src = videoSrc;
                 lightboxVideo.load();
