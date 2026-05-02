@@ -246,13 +246,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (!video.getAttribute('src') && video.dataset.src) {
                         video.src = video.dataset.src;
                         video.load();
-                    }
-                } else {
-                    // Pause and unload when scrolled out of view to free media slots
-                    if (video.getAttribute('src')) {
-                        video.pause();
-                        video.removeAttribute('src');
-                        video.load();
+                        // Once loaded, we don't need to observe it anymore
+                        // This prevents jumping/unloading issues on scroll
+                        videoObserver.unobserve(video);
                     }
                 }
             });
