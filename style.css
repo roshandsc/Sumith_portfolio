@@ -1,0 +1,177 @@
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #0A0A0A;
+}
+::-webkit-scrollbar-thumb {
+    background: #D4A853;
+    border-radius: 999px;
+}
+
+/* Base custom styles extending Tailwind */
+html {
+    scroll-behavior: auto; /* Handled by Lenis now */
+    cursor: none; /* Hide default cursor to use custom one */
+}
+
+/* Preloader Scroll Lock */
+html.no-scroll, body.no-scroll {
+    overflow: hidden !important;
+}
+
+/* SplitType utility */
+.line {
+    overflow: hidden;
+}
+.char {
+    display: inline-block;
+    transform: translateY(100%);
+}
+
+/* Only hide cursor on non-touch devices */
+@media (max-width: 768px) {
+    html {
+        cursor: auto;
+    }
+}
+
+/* Custom Cursor Styles */
+.custom-cursor {
+    width: 10px;
+    height: 10px;
+    background-color: #D4A853;
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s cubic-bezier(0.19, 1, 0.22, 1), height 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    mix-blend-mode: difference;
+}
+
+.custom-cursor-follower {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(212, 168, 83, 0.6);
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s cubic-bezier(0.19, 1, 0.22, 1), height 0.3s cubic-bezier(0.19, 1, 0.22, 1), border-color 0.3s, background-color 0.3s;
+    mix-blend-mode: difference;
+}
+
+/* Hover effect classes for cursor */
+.cursor-hover .custom-cursor {
+    width: 0px;
+    height: 0px;
+}
+.cursor-hover .custom-cursor-follower {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(255, 255, 255, 1); /* White for difference blending */
+    border-color: transparent;
+    backdrop-filter: blur(2px);
+}
+
+.cursor-magnetic .custom-cursor {
+    width: 0px;
+    height: 0px;
+}
+.cursor-magnetic .custom-cursor-follower {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(212, 168, 83, 0.15);
+    border-color: #D4A853;
+    mix-blend-mode: normal;
+}
+
+/* Hero Background and Effects */
+.radial-bg {
+    background: radial-gradient(circle at 80% 20%, rgba(212, 168, 83, 0.08), transparent 40%);
+}
+
+.radial-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 0 40%, rgba(212, 168, 83, 0.03), transparent 60% 100%);
+}
+
+.speed-line {
+    position: absolute;
+    left: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #D4A853, transparent);
+    opacity: 0.5;
+    transform: translateX(-100%);
+    animation: speed 4s linear infinite;
+    z-index: 1;
+}
+
+@keyframes speed {
+    0% { transform: translateX(-120vw); opacity: 0; }
+    40% { opacity: 0.6; }
+    100% { transform: translateX(120vw); opacity: 0; }
+}
+
+.delay-0 { animation-delay: 0s; }
+.delay-700 { animation-delay: 1.2s; }
+.delay-1000 { animation-delay: 2.3s; }
+
+/* Profile Ring Animation */
+.profile-ring {
+    background: conic-gradient(from 0deg, #D4A853, transparent, #D4A853, transparent, #D4A853);
+    box-shadow: 0 0 35px rgba(212, 168, 83, 0.2);
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Navbar Link Underline Animation */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0;
+    height: 1px;
+    background: #D4A853;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after, .nav-link.active::after {
+    width: 100%;
+}
+
+/* Typography Overrides */
+h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: 'Bebas Neue', cursive;
+}
+body {
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Lenis Specific Styles */
+html.lenis {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}

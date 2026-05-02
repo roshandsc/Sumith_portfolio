@@ -1,0 +1,24 @@
+{
+  "name": "sumith",
+  "version": "1.0.0",
+  "description": "A cinematic black-gold Streamlit portfolio for a freelance video editor.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anshul55555/SUMITH-P-KOTIAN.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anshul55555/SUMITH-P-KOTIAN/issues"
+  },
+  "homepage": "https://github.com/anshul55555/SUMITH-P-KOTIAN#readme",
+  "devDependencies": {
+    "vite": "^8.0.10"
+  }
+}
