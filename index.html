@@ -72,9 +72,10 @@
 
     <!-- Navbar -->
     <nav class="fixed top-0 left-0 right-0 z-40 bg-bg/80 backdrop-blur-md border-b border-gold/10 nav-container opacity-0 -translate-y-full">
-        <div class="max-w-6xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
             <a href="#home" class="font-display text-3xl tracking-wide text-gold magnetic-nav">SUMITH<span class="text-white">PK</span></a>
-            <div class="flex items-center gap-6 text-sm uppercase tracking-wider font-medium text-gray-400">
+            <!-- Desktop Nav Links -->
+            <div class="hidden md:flex items-center gap-6 text-sm uppercase tracking-wider font-medium text-gray-400">
                 <a href="#home" class="nav-link hover:text-gold transition-colors relative magnetic-nav">Home</a>
                 <a href="#about" class="nav-link hover:text-gold transition-colors relative magnetic-nav">About</a>
                 <a href="#experience" class="nav-link hover:text-gold transition-colors relative magnetic-nav">Experience</a>
@@ -82,8 +83,75 @@
                 <a href="#portfolio" class="nav-link hover:text-gold transition-colors relative magnetic-nav">Portfolio</a>
                 <a href="#contact" class="nav-link hover:text-gold transition-colors relative magnetic-nav">Contact</a>
             </div>
+            <!-- Mobile Hamburger Toggle -->
+            <button id="mobile-menu-toggle" class="md:hidden flex flex-col justify-center items-center w-10 h-10 relative z-[70]" aria-label="Toggle Menu">
+                <span class="hamburger-line block w-6 h-[2px] bg-gold rounded-full transition-all duration-300 origin-center"></span>
+                <span class="hamburger-line block w-6 h-[2px] bg-gold rounded-full transition-all duration-300 mt-1.5 origin-center"></span>
+                <span class="hamburger-line block w-4 h-[2px] bg-gold rounded-full transition-all duration-300 mt-1.5 origin-center"></span>
+            </button>
         </div>
     </nav>
+
+    <!-- Mobile Reel Menu Overlay -->
+    <div id="mobile-reel-menu" class="fixed inset-0 z-[60] pointer-events-none opacity-0 transition-opacity duration-500">
+        <!-- Backdrop -->
+        <div class="reel-backdrop absolute inset-0 bg-black/90 backdrop-blur-xl"></div>
+        <!-- Film Strip Scroller -->
+        <div class="reel-content relative z-10 flex flex-col items-center justify-center h-full px-6">
+            <!-- Filmstrip Container -->
+            <div class="reel-strip w-full max-w-xs relative">
+                <!-- Film Perforations Left -->
+                <div class="film-perforations left-perfs absolute left-0 top-0 bottom-0 w-5 flex flex-col justify-evenly items-center">
+                    <div class="perf"></div><div class="perf"></div><div class="perf"></div>
+                    <div class="perf"></div><div class="perf"></div><div class="perf"></div>
+                    <div class="perf"></div><div class="perf"></div><div class="perf"></div>
+                </div>
+                <!-- Film Perforations Right -->
+                <div class="film-perforations right-perfs absolute right-0 top-0 bottom-0 w-5 flex flex-col justify-evenly items-center">
+                    <div class="perf"></div><div class="perf"></div><div class="perf"></div>
+                    <div class="perf"></div><div class="perf"></div><div class="perf"></div>
+                    <div class="perf"></div><div class="perf"></div><div class="perf"></div>
+                </div>
+                <!-- Nav Items as Film Frames -->
+                <div class="reel-frames flex flex-col gap-3 px-8 py-6">
+                    <a href="#home" class="reel-frame" data-index="0">
+                        <span class="reel-frame-number">01</span>
+                        <span class="reel-frame-label">Home</span>
+                        <span class="reel-frame-line"></span>
+                    </a>
+                    <a href="#about" class="reel-frame" data-index="1">
+                        <span class="reel-frame-number">02</span>
+                        <span class="reel-frame-label">About</span>
+                        <span class="reel-frame-line"></span>
+                    </a>
+                    <a href="#experience" class="reel-frame" data-index="2">
+                        <span class="reel-frame-number">03</span>
+                        <span class="reel-frame-label">Experience</span>
+                        <span class="reel-frame-line"></span>
+                    </a>
+                    <a href="#skills" class="reel-frame" data-index="3">
+                        <span class="reel-frame-number">04</span>
+                        <span class="reel-frame-label">Skills</span>
+                        <span class="reel-frame-line"></span>
+                    </a>
+                    <a href="#portfolio" class="reel-frame" data-index="4">
+                        <span class="reel-frame-number">05</span>
+                        <span class="reel-frame-label">Portfolio</span>
+                        <span class="reel-frame-line"></span>
+                    </a>
+                    <a href="#contact" class="reel-frame" data-index="5">
+                        <span class="reel-frame-number">06</span>
+                        <span class="reel-frame-label">Contact</span>
+                        <span class="reel-frame-line"></span>
+                    </a>
+                </div>
+            </div>
+            <!-- Tagline at bottom -->
+            <div class="reel-tagline mt-8 text-center">
+                <span class="font-display text-xl tracking-[6px] text-gold/60">REEL · SCROLL · CREATE</span>
+            </div>
+        </div>
+    </div>
 
     <main>
         <!-- Hero Section -->

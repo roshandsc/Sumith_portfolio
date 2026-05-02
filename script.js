@@ -237,6 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Navbar active state logic based on scroll
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('.nav-link');
+    const reelFrames = document.querySelectorAll('.reel-frame');
 
     window.addEventListener('scroll', () => {
         let current = '';
@@ -253,5 +254,68 @@ document.addEventListener('DOMContentLoaded', () => {
                 link.classList.add('active');
             }
         });
+
+        // Also highlight reel frames
+        reelFrames.forEach(frame => {
+            frame.classList.remove('active');
+            if (frame.getAttribute('href').includes(current)) {
+                frame.classList.add('active');
+            }
+        });
     });
+
+    // 7. Mobile Reel Menu Toggle
+    const menuToggle = document.getElementById('mobile-menu-toggle');
+    const reelMenu = document.getElementById('mobile-reel-menu');
+    const navContainer = document.querySelector('.nav-container');
+    let menuOpen = false;
+
+    if (menuToggle && reelMenu) {
+        menuToggle.addEventListener('click', () => {
+            menuOpen = !menuOpen;
+            if (menuOpen) {
+                reelMenu.classList.add('reel-open');
+                navContainer.classList.add('menu-open');
+                document.body.classList.add('no-scroll');
+            } else {
+                closeReelMenu();
+            }
+        });
+
+        // Close menu when a reel frame link is clicked
+        reelFrames.forEach(frame => {
+            frame.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = frame.getAttribute('href');
+                closeReelMenu();
+                // Small delay to let menu close animation start, then scroll
+                setTimeout(() => {
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 300);
+            });
+        });
+
+        // Close on backdrop click
+        const backdrop = reelMenu.querySelector('.reel-backdrop');
+        if (backdrop) {
+            backdrop.addEventListener('click', () => {
+                closeReelMenu();
+            });
+        }
+    }
+
+    function closeReelMenu() {
+        menuOpen = false;
+        reelMenu.classList.remove('reel-open');
+        navContainer.classList.remove('menu-open');
+        document.body.classList.remove('no-scroll');
+        // Reset frame animations for next open
+        reelFrames.forEach(frame => {
+            frame.style.opacity = '0';
+            frame.style.transform = 'translateY(20px)';
+        });
+    }
 });

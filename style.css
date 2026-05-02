@@ -175,3 +175,225 @@ html.lenis {
 .lenis.lenis-stopped {
   overflow: hidden;
 }
+
+/* ═══════════════════════════════════════════════════════
+   MOBILE REEL MENU — Film Strip Scroller Navigation
+══════════════════════════════════════════════════════ */
+
+/* Hamburger X animation when menu is open */
+.menu-open .hamburger-line:nth-child(1) {
+    transform: translateY(5px) rotate(45deg);
+    width: 1.5rem;
+}
+.menu-open .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+.menu-open .hamburger-line:nth-child(3) {
+    transform: translateY(-5px) rotate(-45deg);
+    width: 1.5rem;
+}
+
+/* Reel Menu Overlay */
+#mobile-reel-menu {
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+#mobile-reel-menu.reel-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Film Strip Container */
+.reel-strip {
+    background: linear-gradient(180deg, rgba(20,20,20,0.95) 0%, rgba(10,10,10,0.98) 100%);
+    border: 1px solid rgba(212, 168, 83, 0.15);
+    border-radius: 8px;
+    box-shadow:
+        0 0 60px rgba(212, 168, 83, 0.08),
+        0 25px 50px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Film grain overlay on strip */
+.reel-strip::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Filmstrip perforation holes */
+.film-perforations {
+    z-index: 2;
+}
+
+.perf {
+    width: 10px;
+    height: 14px;
+    border-radius: 2px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(212, 168, 83, 0.12);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+}
+
+/* Individual Reel Frame (Nav Item) */
+.reel-frame {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 16px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.reel-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(212, 168, 83, 0.06), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 12px;
+}
+
+.reel-frame:hover::before,
+.reel-frame:active::before {
+    opacity: 1;
+}
+
+.reel-frame:hover,
+.reel-frame:active {
+    border-color: rgba(212, 168, 83, 0.3);
+    transform: translateX(4px) !important;
+    box-shadow: 0 0 20px rgba(212, 168, 83, 0.1);
+}
+
+/* Frame number (01, 02, 03...) */
+.reel-frame-number {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 28px;
+    color: rgba(212, 168, 83, 0.25);
+    letter-spacing: 2px;
+    line-height: 1;
+    min-width: 36px;
+    transition: color 0.3s ease;
+}
+
+.reel-frame:hover .reel-frame-number {
+    color: rgba(212, 168, 83, 0.6);
+}
+
+/* Frame label */
+.reel-frame-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #e0e0e0;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    transition: all 0.3s ease;
+}
+
+.reel-frame:hover .reel-frame-label {
+    color: #D4A853;
+    letter-spacing: 5px;
+}
+
+/* Decorative line */
+.reel-frame-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(212, 168, 83, 0.15), transparent);
+    transition: all 0.3s ease;
+}
+
+.reel-frame:hover .reel-frame-line {
+    background: linear-gradient(90deg, rgba(212, 168, 83, 0.4), transparent);
+}
+
+/* Active state for reel frames */
+.reel-frame.active .reel-frame-number {
+    color: #D4A853;
+}
+.reel-frame.active .reel-frame-label {
+    color: #D4A853;
+}
+.reel-frame.active {
+    border-color: rgba(212, 168, 83, 0.2);
+    background: rgba(212, 168, 83, 0.05);
+}
+
+/* Staggered reveal animation for frames */
+.reel-open .reel-frame {
+    animation: reelFrameIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.reel-open .reel-frame[data-index="0"] { animation-delay: 0.1s; }
+.reel-open .reel-frame[data-index="1"] { animation-delay: 0.17s; }
+.reel-open .reel-frame[data-index="2"] { animation-delay: 0.24s; }
+.reel-open .reel-frame[data-index="3"] { animation-delay: 0.31s; }
+.reel-open .reel-frame[data-index="4"] { animation-delay: 0.38s; }
+.reel-open .reel-frame[data-index="5"] { animation-delay: 0.45s; }
+
+@keyframes reelFrameIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Reel tagline */
+.reel-tagline {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.6s ease 0.55s;
+}
+.reel-open .reel-tagline {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Film strip border glow animation */
+.reel-open .reel-strip {
+    animation: stripGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes stripGlow {
+    0% { box-shadow: 0 0 30px rgba(212, 168, 83, 0.05), 0 25px 50px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05); }
+    100% { box-shadow: 0 0 50px rgba(212, 168, 83, 0.12), 0 25px 50px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05); }
+}
+
+/* Only show reel menu elements on mobile */
+@media (min-width: 769px) {
+    #mobile-reel-menu {
+        display: none !important;
+    }
+}
+
+/* Center skill cards on mobile */
+@media (max-width: 768px) {
+    #skills .group {
+        text-align: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+    }
+    #skills .group ul {
+        text-align: center;
+    }
+}
+
