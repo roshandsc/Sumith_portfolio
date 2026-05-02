@@ -318,4 +318,54 @@ document.addEventListener('DOMContentLoaded', () => {
             frame.style.transform = 'translateY(20px)';
         });
     }
+
+    // 8. Reel Lightbox (9:16 Fullscreen)
+    const lightbox = document.getElementById('reel-lightbox');
+    const lightboxVideo = document.getElementById('reel-lightbox-video');
+    const lightboxClose = document.getElementById('reel-lightbox-close');
+    const lightboxBackdrop = lightbox ? lightbox.querySelector('.reel-lightbox-backdrop') : null;
+
+    // Attach click handlers to all reel expand buttons
+    document.querySelectorAll('.reel-card .reel-expand-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const card = btn.closest('.reel-card');
+            const videoSrc = card.getAttribute('data-reel-src');
+            if (videoSrc && lightbox && lightboxVideo) {
+                // Pause any currently playing card videos
+                document.querySelectorAll('#portfolio video').forEach(v => v.pause());
+                // Set lightbox video source and open
+                lightboxVideo.src = videoSrc;
+                lightboxVideo.load();
+                lightbox.classList.add('active');
+                document.body.classList.add('no-scroll');
+                lightboxVideo.play().catch(() => {});
+            }
+        });
+    });
+
+    function closeReelLightbox() {
+        if (lightbox && lightboxVideo) {
+            lightbox.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+            lightboxVideo.pause();
+            // Clear src after transition to free memory
+            setTimeout(() => {
+                lightboxVideo.removeAttribute('src');
+                lightboxVideo.load();
+            }, 400);
+        }
+    }
+
+    // Close lightbox handlers
+    if (lightboxClose) lightboxClose.addEventListener('click', closeReelLightbox);
+    if (lightboxBackdrop) lightboxBackdrop.addEventListener('click', closeReelLightbox);
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox && lightbox.classList.contains('active')) {
+            closeReelLightbox();
+        }
+    });
 });
